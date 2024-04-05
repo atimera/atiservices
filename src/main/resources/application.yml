@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: atiservices
+
+server:
+  port: 8080
+  error:
+    include-message: always
