@@ -1,6 +1,6 @@
-package com.amdiatou.atiservices.commune;
+package com.amdiatou.atiservices.ville;
 
-public record CommuneDto(
+public record VilleDto(
         Integer id,
         String nom,
         Integer codePostal,

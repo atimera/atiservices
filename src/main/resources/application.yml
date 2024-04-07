@@ -1,8 +1,21 @@
-spring:
-  application:
-    name: atiservices
-
 server:
   port: 8080
   error:
     include-message: always
+
+spring:
+  application:
+    name: atiservices
+  # Datasource
+  datasource:
+    username: atimera
+    password: laenzo
+    url: jdbc:postgresql://localhost:5432/dbatiservices
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false

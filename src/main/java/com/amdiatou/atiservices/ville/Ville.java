@@ -1,19 +1,37 @@
-package com.amdiatou.atiservices.commune;
+package com.amdiatou.atiservices.ville;
+
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
-public class Commune {
+@Entity
+public class Ville {
 
+    @Id
+    @SequenceGenerator(
+            name = "ville_id_seq",
+            sequenceName = "ville_id_seq"
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ville_id_seq")
     private Integer id;
+    @Column(nullable = false)
     private String nom;
+    @Column(nullable = false)
     private Integer codePostal;
+    @Column(nullable = false)
     private String departement;
 
-    public Commune() {
+    public Ville() {
     }
 
-    public Commune(Integer id, String nom, Integer codePostal, String departement) {
+    public Ville(Integer id, String nom, Integer codePostal, String departement) {
         this.id = id;
+        this.nom = nom;
+        this.codePostal = codePostal;
+        this.departement = departement;
+    }
+
+    public Ville(String nom, Integer codePostal, String departement) {
         this.nom = nom;
         this.codePostal = codePostal;
         this.departement = departement;
@@ -54,8 +72,8 @@ public class Commune {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Commune commune)) return false;
-        return Objects.equals(getId(), commune.getId()) && Objects.equals(getNom(), commune.getNom()) && Objects.equals(getCodePostal(), commune.getCodePostal()) && Objects.equals(getDepartement(), commune.getDepartement());
+        if (!(o instanceof Ville ville)) return false;
+        return Objects.equals(getId(), ville.getId()) && Objects.equals(getNom(), ville.getNom()) && Objects.equals(getCodePostal(), ville.getCodePostal()) && Objects.equals(getDepartement(), ville.getDepartement());
     }
 
     @Override
@@ -65,7 +83,7 @@ public class Commune {
 
     @Override
     public String toString() {
-        return "Commune{" +
+        return "Ville{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", codePostal=" + codePostal +
