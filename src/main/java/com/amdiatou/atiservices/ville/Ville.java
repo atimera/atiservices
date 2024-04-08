@@ -16,7 +16,7 @@ public class Ville {
     private Integer id;
     @Column(nullable = false)
     private String nom;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Integer codePostal;
     @Column(nullable = false)
     private String departement;

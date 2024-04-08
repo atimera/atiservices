@@ -1,12 +1,11 @@
 package com.amdiatou.atiservices.ville;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("api/v1/villes")
 public class VilleController {
 
     private final VilleService villeService;
@@ -15,13 +14,34 @@ public class VilleController {
         this.villeService = villeService;
     }
 
-    @GetMapping("/api/v1/villes")
+    @GetMapping
     public List<Ville> getListVilles(){
         return villeService.list();
     }
 
-    @GetMapping("/api/v1/villes/{id}")
+    @GetMapping("{id}")
     public Ville getVille(@PathVariable(name = "id") Integer id){
         return villeService.getVilleById(id);
     }
+
+    @PostMapping
+    public void addVille(@RequestBody VilleDto villeDto){
+         villeService.addVille(villeDto);
+    }
+
+    @PutMapping("{id}")
+    public void updateVille(@PathVariable(name = "id") Integer id,
+                            @RequestBody VilleDto villeDto){
+        villeService.updateVille(id, villeDto);
+    }
+
+    @DeleteMapping("{id}")
+    public void removeVille(@PathVariable(name = "id") Integer id){
+        villeService.deleteVille(id);
+    }
+
+
+
+
+
 }
