@@ -10,7 +10,8 @@ public class Ville {
     @Id
     @SequenceGenerator(
             name = "ville_id_seq",
-            sequenceName = "ville_id_seq"
+            sequenceName = "ville_id_seq",
+            allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ville_id_seq")
     private Integer id;
