@@ -14,7 +14,7 @@ public class VilleService {
     private final VilleDao villeDao;
     private final Mapper mapper;
 
-    public VilleService(@Qualifier("jpa") VilleDao villeDao, Mapper mapper) {
+    public VilleService(@Qualifier("jdbc") VilleDao villeDao, Mapper mapper) {
         this.villeDao = villeDao;
         this.mapper = mapper;
     }
