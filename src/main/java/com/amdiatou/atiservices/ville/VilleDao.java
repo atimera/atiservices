@@ -6,11 +6,11 @@ import java.util.Optional;
 public interface VilleDao {
 
     List<Ville> selectAllVilles();
-    Optional<Ville> selectVilleById(Integer id);
+    Optional<Ville> selectVilleById(Long id);
     void addVille(Ville ville);
     void updateVille(Ville villeToUpdate);
-    void deleteVilleById(Integer id);
+    void deleteVilleById(Long id);
     boolean existsByCodePostal(Integer codePostal);
-    boolean existsById(Integer id);
+    boolean existsById(Long id);
 
 }

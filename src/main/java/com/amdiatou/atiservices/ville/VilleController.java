@@ -20,7 +20,7 @@ public class VilleController {
     }
 
     @GetMapping("{id}")
-    public Ville getVille(@PathVariable(name = "id") Integer id){
+    public Ville getVille(@PathVariable(name = "id") Long id){
         return villeService.getVilleById(id);
     }
 
@@ -30,13 +30,13 @@ public class VilleController {
     }
 
     @PutMapping("{id}")
-    public void updateVille(@PathVariable(name = "id") Integer id,
+    public void updateVille(@PathVariable(name = "id") Long id,
                             @RequestBody VilleDto villeDto){
         villeService.updateVille(id, villeDto);
     }
 
     @DeleteMapping("{id}")
-    public void removeVille(@PathVariable(name = "id") Integer id){
+    public void removeVille(@PathVariable(name = "id") Long id){
         villeService.deleteVille(id);
     }
 

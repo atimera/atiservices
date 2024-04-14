@@ -10,8 +10,8 @@ import java.util.Optional;
 public class VilleInMemoryDataAccessService implements VilleDao {
 
     public List<Ville> list = new ArrayList<>(List.of(
-            new Ville(1, "Rossy-en-Brie", 77680, "SEINE-ET-MARNE"),
-            new Ville(2, "Pontault-combault", 77340, "SEINE-ET-MARNE")
+            new Ville(1L, "Rossy-en-Brie", 77680, "SEINE-ET-MARNE"),
+            new Ville(2L, "Pontault-combault", 77340, "SEINE-ET-MARNE")
     ));
 
     @Override
@@ -20,13 +20,13 @@ public class VilleInMemoryDataAccessService implements VilleDao {
     }
 
     @Override
-    public Optional<Ville> selectVilleById(Integer id) {
+    public Optional<Ville> selectVilleById(Long id) {
         return list.stream().filter(c -> c.getId().equals(id)).findFirst();
     }
 
     @Override
     public void addVille(Ville ville) {
-        ville.setId(list.size() + 1);
+        ville.setId(list.size() + 1L);
         list.add(ville);
     }
 
@@ -38,7 +38,7 @@ public class VilleInMemoryDataAccessService implements VilleDao {
     }
 
     @Override
-    public void deleteVilleById(Integer id) {
+    public void deleteVilleById(Long id) {
         list.stream().filter(v -> v.getId().equals(id)).findFirst()
                 .ifPresent(list::remove);
     }
@@ -49,7 +49,7 @@ public class VilleInMemoryDataAccessService implements VilleDao {
     }
 
     @Override
-    public boolean existsById(Integer id) {
+    public boolean existsById(Long id) {
         return list.stream().anyMatch(ville -> ville.getId().equals(id));
     }
 }

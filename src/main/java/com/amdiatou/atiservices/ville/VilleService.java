@@ -23,7 +23,7 @@ public class VilleService {
         return villeDao.selectAllVilles();
     }
 
-    public Ville getVilleById(Integer id) {
+    public Ville getVilleById(Long id) {
         return villeDao
                 .selectVilleById(id)
                 .orElseThrow(() -> new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id)));
@@ -43,7 +43,7 @@ public class VilleService {
         villeDao.addVille(mapper.toVille(villeDto));
     }
 
-    public void updateVille(Integer id, VilleDto villeDto) {
+    public void updateVille(Long id, VilleDto villeDto) {
         Ville villeToUpdate = villeDao.selectVilleById(id)
                 .orElseThrow(() -> new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id)));
 
@@ -70,7 +70,7 @@ public class VilleService {
 
     }
 
-    public void deleteVille(Integer id) {
+    public void deleteVille(Long id) {
         villeDao.deleteVilleById(id);
     }
 }

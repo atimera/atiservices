@@ -21,7 +21,7 @@ public class VilleJPADataAccessServices implements VilleDao {
     }
 
     @Override
-    public Optional<Ville> selectVilleById(Integer id) {
+    public Optional<Ville> selectVilleById(Long id) {
         return villeRepository.findById(id);
     }
 
@@ -36,7 +36,7 @@ public class VilleJPADataAccessServices implements VilleDao {
     }
 
     @Override
-    public void deleteVilleById(Integer id) {
+    public void deleteVilleById(Long id) {
         villeRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id)));
         villeRepository.deleteById(id);
@@ -48,7 +48,7 @@ public class VilleJPADataAccessServices implements VilleDao {
     }
 
     @Override
-    public boolean existsById(Integer id) {
+    public boolean existsById(Long id) {
         return villeRepository.existsById(id);
     }
 }

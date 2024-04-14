@@ -5,6 +5,12 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(
+        name = "ville",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "ville_code_postal_unique", columnNames = "code_postal")
+        }
+)
 public class Ville {
 
     @Id
@@ -14,7 +20,7 @@ public class Ville {
             allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ville_id_seq")
-    private Integer id;
+    private Long id;
     @Column(nullable = false)
     private String nom;
     @Column(nullable = false, unique = true)
@@ -25,7 +31,7 @@ public class Ville {
     public Ville() {
     }
 
-    public Ville(Integer id, String nom, Integer codePostal, String departement) {
+    public Ville(Long id, String nom, Integer codePostal, String departement) {
         this.id = id;
         this.nom = nom;
         this.codePostal = codePostal;
@@ -38,11 +44,11 @@ public class Ville {
         this.departement = departement;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
