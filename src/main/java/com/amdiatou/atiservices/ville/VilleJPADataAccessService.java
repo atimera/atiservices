@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("jpa")
-public class VilleJPADataAccessServices implements VilleDao {
+public class VilleJPADataAccessService implements VilleDao {
 
     private final VilleRepository villeRepository;
 
-    public VilleJPADataAccessServices(VilleRepository villeRepository) {
+    public VilleJPADataAccessService(VilleRepository villeRepository) {
         this.villeRepository = villeRepository;
     }
 

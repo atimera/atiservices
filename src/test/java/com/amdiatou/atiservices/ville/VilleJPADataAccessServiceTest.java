@@ -3,22 +3,18 @@ package com.amdiatou.atiservices.ville;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-class VilleJPADataAccessServicesTest {
+class VilleJPADataAccessServiceTest {
 
     @Mock
     private VilleRepository villeRepository;
-    private VilleJPADataAccessServices underTest;
+    private VilleJPADataAccessService underTest;
 
     private AutoCloseable autoCloseable;
 
@@ -26,7 +22,7 @@ class VilleJPADataAccessServicesTest {
     void setUp() {
         // On aurait pu juste ajouter l'annotation @ExtendWith(MockitoExtension.class) à la classe de test
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new VilleJPADataAccessServices(villeRepository);
+        underTest = new VilleJPADataAccessService(villeRepository);
     }
 
     @AfterEach

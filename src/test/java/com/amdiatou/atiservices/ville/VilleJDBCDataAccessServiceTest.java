@@ -3,13 +3,11 @@ package com.amdiatou.atiservices.ville;
 import com.amdiatou.atiservices.AbstractTestcontainers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class VilleJDBCDataAccessServiceTest extends AbstractTestcontainers {
     private VilleJDBCDataAccessService underTest;
