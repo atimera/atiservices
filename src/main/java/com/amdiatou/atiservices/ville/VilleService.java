@@ -12,11 +12,9 @@ import java.util.List;
 public class VilleService {
 
     private final VilleDao villeDao;
-    private final Mapper mapper;
 
-    public VilleService(@Qualifier("jdbc") VilleDao villeDao, Mapper mapper) {
+    public VilleService(@Qualifier("jdbc") VilleDao villeDao) {
         this.villeDao = villeDao;
-        this.mapper = mapper;
     }
 
     public List<Ville> list() {
@@ -40,7 +38,8 @@ public class VilleService {
             throw new DuplicateResource("Une ville avec ce codePostal existe déjà");
         }
 
-        villeDao.addVille(mapper.toVille(villeDto));
+        Ville ville = new Ville(villeDto.nom(), villeDto.codePostal(), villeDto.departement());
+        villeDao.addVille(ville);
     }
 
     public void updateVille(Long id, VilleDto villeDto) {
