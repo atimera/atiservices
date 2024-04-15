@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.amdiatou.atiservices.ville.Messages.VILLE_CODE_POSTAL_EXISTE_DEJA;
+import static com.amdiatou.atiservices.ville.Messages.VILLE_N_EXISTE_PAS;
+
 @Service
 public class VilleService {
 
@@ -24,54 +27,58 @@ public class VilleService {
     public Ville getVilleById(Long id) {
         return villeDao
                 .selectVilleById(id)
-                .orElseThrow(() -> new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id)));
+                .orElseThrow(() -> new ResourceNotFound(VILLE_N_EXISTE_PAS.formatted(id)));
     }
 
-    public void addVille(VilleDto villeDto) {
-        if( villeDto.nom() == null || villeDto.nom().isBlank()
-                || villeDto.codePostal() == null ||
-                villeDto.departement() == null || villeDto.departement().isBlank()){
-            throw new InvalidRequest("Au moins un champ obligatoire est vide");
+    public void addVille(NewVilleRequest request) {
+        if( request.nom() == null || request.nom().isBlank()
+                || request.codePostal() == null ||
+                request.departement() == null || request.departement().isBlank()){
+            throw new InvalidRequest(Messages.VILLE_CHAMP_OBLIGATOIRE_VIDE);
         }
 
-        if(villeDao.existsByCodePostal(villeDto.codePostal())){
-            throw new DuplicateResource("Une ville avec ce codePostal existe déjà");
+        if(villeDao.existsByCodePostal(request.codePostal())){
+            throw new DuplicateResource(Messages.VILLE_CODE_POSTAL_EXISTE_DEJA);
         }
 
-        Ville ville = new Ville(villeDto.nom(), villeDto.codePostal(), villeDto.departement());
+        Ville ville = new Ville(request.nom(), request.codePostal(), request.departement());
+
         villeDao.addVille(ville);
     }
 
-    public void updateVille(Long id, VilleDto villeDto) {
+    public void updateVille(Long id, UpdateVilleRequest request) {
         Ville villeToUpdate = villeDao.selectVilleById(id)
-                .orElseThrow(() -> new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id)));
+                .orElseThrow(() -> new ResourceNotFound(VILLE_N_EXISTE_PAS.formatted(id)));
 
         boolean dateChanged = false;
-        if(villeDto.nom() != null && !villeDto.nom().equals(villeToUpdate.getNom())){
-            villeToUpdate.setNom(villeDto.nom());
+        if(request.nom() != null && !request.nom().equals(villeToUpdate.getNom())){
+            villeToUpdate.setNom(request.nom());
             dateChanged = true;
         }
 
-        if(villeDto.codePostal() != null && !villeDto.codePostal().equals(villeToUpdate.getCodePostal())){
-            villeToUpdate.setCodePostal(villeDto.codePostal());
+        if(request.codePostal() != null && !request.codePostal().equals(villeToUpdate.getCodePostal())){
+            if(villeDao.existsByCodePostal(request.codePostal())){
+                throw new DuplicateResource(VILLE_CODE_POSTAL_EXISTE_DEJA);
+            }
+            villeToUpdate.setCodePostal(request.codePostal());
             dateChanged = true;
         }
 
-        if(villeDto.departement() != null && !villeDto.departement().equals(villeToUpdate.getDepartement())){
-            villeToUpdate.setDepartement(villeDto.departement());
+        if(request.departement() != null && !request.departement().equals(villeToUpdate.getDepartement())){
+            villeToUpdate.setDepartement(request.departement());
             dateChanged = true;
         }
 
         if(!dateChanged){
-            throw new InvalidRequest("Aucun changement apporté");
+            throw new InvalidRequest(Messages.VILLE_INCHANGEE);
         }
-        villeDao.updateVille(villeToUpdate);
 
+        villeDao.updateVille(villeToUpdate);
     }
 
     public void deleteVille(Long id) {
         if(!villeDao.existsById(id)){
-            throw new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id));
+            throw new ResourceNotFound(VILLE_N_EXISTE_PAS.formatted(id));
         }
         villeDao.deleteVilleById(id);
     }

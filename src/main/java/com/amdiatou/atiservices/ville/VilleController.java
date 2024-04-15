@@ -25,14 +25,14 @@ public class VilleController {
     }
 
     @PostMapping
-    public void addVille(@RequestBody VilleDto villeDto){
-         villeService.addVille(villeDto);
+    public void addVille(@RequestBody NewVilleRequest request){
+         villeService.addVille(request);
     }
 
     @PutMapping("{id}")
     public void updateVille(@PathVariable(name = "id") Long id,
-                            @RequestBody VilleDto villeDto){
-        villeService.updateVille(id, villeDto);
+                            @RequestBody UpdateVilleRequest request){
+        villeService.updateVille(id, request);
     }
 
     @DeleteMapping("{id}")
