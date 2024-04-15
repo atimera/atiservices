@@ -1,6 +1,5 @@
 package com.amdiatou.atiservices.ville;
 
-import com.amdiatou.atiservices.execption.ResourceNotFound;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,8 +36,6 @@ public class VilleJPADataAccessServices implements VilleDao {
 
     @Override
     public void deleteVilleById(Long id) {
-        villeRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id)));
         villeRepository.deleteById(id);
     }
 

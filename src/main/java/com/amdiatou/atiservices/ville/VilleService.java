@@ -71,6 +71,9 @@ public class VilleService {
     }
 
     public void deleteVille(Long id) {
+        if(!villeDao.existsById(id)){
+            throw new ResourceNotFound("La ville avec l'id [%s] n'existe pas".formatted(id));
+        }
         villeDao.deleteVilleById(id);
     }
 }
