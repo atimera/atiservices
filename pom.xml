@@ -71,8 +71,48 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>reserve-tomcat-port</id>
+						<goals>
+							<goal>reserve-network-port</goal>
+						</goals>
+						<phase>process-resources</phase>
+						<configuration>
+							<portNames>
+								<portName>tomcat.http.port</portName>
+							</portNames>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Spring boot maven plugin: -->
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>pre-integration-test</id>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<!-- pour réserver un port pour les tests d'intégrations -->
+						<configuration>
+							<arguments>
+								<argument>--server.port=${tomcat.http.port}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>post-integration-test</id>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- Maven Surefire Plugin : pour les tests unitaires -->
@@ -85,6 +125,22 @@
 						<exclude>**/*IntegrationTest.java</exclude>
 						<exclude>**/*IT.java</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+
+			<!-- Maven Failsafe Plugin : pour l'exécution les tests d'intégration-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+					<includes>
+						<include>**/*IntegrationTest.java</include>
+						<include>**/*IT.java</include>
+					</includes>
+					<systemPropertyVariables>
+						<test.server.port>${tomcat.http.port}</test.server.port>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 		</plugins>
