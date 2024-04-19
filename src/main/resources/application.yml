@@ -10,7 +10,7 @@ spring:
   datasource:
     username: atimera
     password: laenzo
-    url: jdbc:postgresql://localhost:5432/dbatiservices
+    url: jdbc:postgresql://localhost:5332/dbatiservices
   jpa:
     hibernate:
       ddl-auto: validate
