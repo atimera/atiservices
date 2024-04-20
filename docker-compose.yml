@@ -15,8 +15,8 @@ services:
     restart: unless-stopped
 
   atiservices:
-    container_name: atiservices
-    image: atimera/atiservices
+    container_name: atiservices-api
+    image: atimera/atiservices-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/dbatiservices
     ports:

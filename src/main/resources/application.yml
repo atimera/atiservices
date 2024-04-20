@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: atiservices
+    name: atiservices-api
   # Datasource
   datasource:
     username: atimera
