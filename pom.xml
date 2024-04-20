@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>com.amdiatou</groupId>
-	<artifactId>atiservices</artifactId>
+	<artifactId>atiservices-api</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<organization>
 		<name>amdiatou</name>
@@ -18,7 +18,7 @@
 	</organization>
 
 	<name>atiservices</name>
-	<description>ATI-SERVICES</description>
+	<description>ATI-SERVICES-API</description>
 
 	<properties>
 		<java.version>17</java.version>
@@ -175,9 +175,7 @@
 						</platforms>
 					</from>
 					<to>
-<!--						<image>registry.hub.docker.com/${docker.username}/${project.artifactId}:${project.version}</image>-->
 						<image>docker.io/${docker.username}/${project.artifactId}:${project.version}</image>
-						<!--<image>docker.io/${organization.name}/${project.artifactId}:${project.version}</image>-->
 						<tags>
 							<tag>latest</tag>
 						</tags>
