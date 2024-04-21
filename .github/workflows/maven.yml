@@ -34,4 +34,10 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - name: Build and run Unit/Integration Tests with Maven
-        run: mvn -ntp -B verify jib:build
+        run: mvn -ntp -B verify
+
+      - name: Build Docker image
+        run: mvn compile jib:build -Djib.to.image=docker.io/atimera/atiservices:latest -Djib.to.auth.username=$DOCKERHUB_USERNAME -Djib.to.auth.password=$DOCKERHUB_TOKEN
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
