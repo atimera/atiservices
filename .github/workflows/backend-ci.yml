@@ -1,9 +1,10 @@
 name: CI - Build Backend
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+      - 'releases/**'
     paths:
       - backend/**
 
