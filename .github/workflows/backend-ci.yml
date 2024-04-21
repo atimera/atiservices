@@ -2,7 +2,7 @@ name: CI - Build Backend
 
 on:
   push:
-    branches: ['main', 'releases/**']
+    branches: [ "main" ]
     paths:
       - 'backend/**'
   pull_request:
@@ -39,9 +39,11 @@ jobs:
         working-directory: ./backend
         
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17'
           cache: 'maven'
+      - name: Build and run Unit/Integration Tests and Create/Deploy image to docker hub
+        run: mvn -B -nts verify jib:build --file pom.xml
