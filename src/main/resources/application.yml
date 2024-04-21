@@ -9,7 +9,7 @@ spring:
   # Datasource
   datasource:
     username: atimera
-    password: laenzo
+    password: atilaenzo
     url: jdbc:postgresql://localhost:5332/dbatiservices
   jpa:
     hibernate:
