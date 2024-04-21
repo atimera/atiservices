@@ -1,0 +1,56 @@
+name: CD - Deploy Backend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - backend/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16.1
+        env:
+          POSTGRES_USER: atimera
+          POSTGRES_PASSWORD: atilaenzo
+          POSTGRES_DB: dbatiservices
+        ports:
+          - 5332:5432
+        options:
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+      - name: Set build number
+        id: build-number
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+      - name: Build Package Push with Maven
+        run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+      - name: Update Dockerrun.aws.json api image tag with new build number
+        run: |
+          echo "=== Dockerrun.aws.json before updating tag ==="
+          cat ../Dockerrun.aws.json
+          sed -i -E 's_(atimera/atiservices-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json
+          echo "=== Dockerrun.aws.json after updating tag ==="
+          cat ../Dockerrun.aws.json
