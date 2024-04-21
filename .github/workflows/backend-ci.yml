@@ -2,12 +2,13 @@ name: CI - Build Backend
 
 on:
   push:
-    branches:
-      - main
-      - 'releases/**'
+    branches: ['main', 'releases/**']
     paths:
       - backend/**
-
+  pull_request:
+    branches: [ 'main', 'releases/**' ]
+    paths:
+      - backend/**
 jobs:
   build:
     runs-on: ubuntu-latest
