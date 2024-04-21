@@ -1,0 +1,56 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: atimera
+      POSTGRES_PASSWORD: laenzo
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5332:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+  atiservices:
+    container_name: atiservices-api
+    image: atimera/atiservices-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/dbatiservices
+    ports:
+      - "8088:8080"
+    networks:
+      - db
+    restart: unless-stopped
+    depends_on:
+      - db
+#  Au lieu d'une commande, on utilise une variable d'env : SPRING_DATASOURCE_URL
+#    command:
+#      - --spring.datasource.url=jdbc:postgresql://db:5432/dbatiservices
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - db
+    restart: unless-stopped
+    depends_on:
+      - db
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

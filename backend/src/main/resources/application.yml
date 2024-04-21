@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: atiservices-api
+  # Datasource
+  datasource:
+    username: atimera
+    password: atilaenzo
+    url: jdbc:postgresql://localhost:5332/dbatiservices
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
