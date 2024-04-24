@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "atiservices-api",
-      "image": "atimera/atiservices-api:24.04.2024.17.16.50",
+      "image": "atimera/atiservices-api:24.04.2024.18.48.18",
       "essential": true,
       "memory": 512,
       "portMappings": [
