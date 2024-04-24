@@ -30,17 +30,22 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout de la branche main
+        uses: actions/checkout@v4
+
       - name: Slack git commit et SHA
-        run: >
-          curl -X POST -H 'Content-type: application/json'
-          --data '{"text":":github: https://github.com/atimera/atiservices/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}' 
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'CHANNEL_ID'
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
       - name: Envoi d'un message Slack début déploiement
         run: >
           curl -X POST -H 'Content-type: application/json'
-          --data '{"text":"Début de déploiement :progress_bar: :fingerscrossed:"}' 
+          --data '{"text":"- Début de déploiement ..."}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - uses: actions/setup-java@v4
@@ -62,7 +67,7 @@ jobs:
       - name: Envoi d'un message Slack
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":":maven: Building with Maven"}' 
+          --data '{"text":"- Building with Maven"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Build Package Push with Maven
@@ -71,7 +76,7 @@ jobs:
       - name: Envoi d'un message Slack
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":":docker: Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/atimera/atiserivices-api"}' 
+          --data '{"text":"- Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/atimera/atiserivices-api"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Update Dockerrun.aws.json api image tag with new build number
@@ -85,7 +90,7 @@ jobs:
       - name: Envoi d'un message Slack
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":":aws: Début déploiement vers Elastic Beanstalk"}' 
+          --data '{"text":"- Début déploiement vers Elastic Beanstalk"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Deploy to Elastic Beanstalk
@@ -103,7 +108,7 @@ jobs:
       - name: Envoi d'un message Slack
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":":githubloading: Commit sur le repo https://github.com/atimera/atiservices/"}' 
+          --data '{"text":"- Commit sur le repo https://github.com/atimera/atiservices/"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Commit and push Dockerrun.aws.json
@@ -117,12 +122,12 @@ jobs:
       - name: Envoi d'un message Slack
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":"Déploiement et commit TERMINÉS :github-check-mark: :party_blob: - http://amigoscodeapi-env.eba-ymxutmev.eu-west-1.elasticbeanstalk.com/"}' 
+          --data '{"text":":white_check_mark: Déploiement et commit TERMINÉS :clap: :tada:"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Envoi d'un message Slack
         if: always()
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":"Etat du traitement ${{ job.status }}"}' 
+          --data '{"text":"Etat du traitement ${{ job.status }} :100:"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
