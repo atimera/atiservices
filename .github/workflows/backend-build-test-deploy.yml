@@ -1,9 +1,8 @@
-name: CD - Deploy Backend
+name: CD - Build & Test & Deploy Backend
 
 on:
-  workflow_dispatch:
   workflow_run:
-    workflows: ["Run Tests"]
+    workflows: ["CI - Build et Tests Backend"]
     branches: [main]
     types: 
       - completed
